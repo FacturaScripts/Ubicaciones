@@ -21,6 +21,7 @@ namespace FacturaScripts\Plugins\Ubicaciones\Extension\Controller;
 
 use Closure;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
+use FacturaScripts\Core\Lib\ExtendedController\ListView;
 
 /**
  * Controller to edit a single item from the Producto controller
@@ -28,7 +29,7 @@ use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  *
  * @method addListView(string $viewName, string $model, string $title, string $icon): ListView
- * @method getModel(string $string): mixed
+ * @method getModel(): Producto
  */
 class EditProducto
 {
@@ -64,10 +65,15 @@ class EditProducto
      */
     public function loadData(): Closure
     {
+        /**
+         * @param string $viewName
+         * @param ListView $view
+         */
         return function($viewName, $view): void {
             if ($viewName == 'ListVariantLocation') {
-                $where = [new DataBaseWhere('idproduct', $this->getModel('idproducto'))];
-                $view->loadData('', $where);
+                $view->loadData('', [
+                    new DataBaseWhere('idproduct', $this->getModel()->idproducto),
+                ]);
             }
         };
     }
