@@ -2,7 +2,7 @@
 /**
  * This file is part of Ubicaciones plugin for FacturaScripts.
  * FacturaScripts Copyright (C) 2015-2022 Carlos Garcia Gomez <carlos@facturascripts.com>
- * Ubicaciones    Copyright (C) 2019-2022 Jose Antonio Cuello Principal <yopli2000@gmail.com>
+ * Ubicaciones    Copyright (C) 2019-2024 Jose Antonio Cuello Principal <yopli2000@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -36,21 +36,10 @@ class VariantLocation extends JoinModel
      *
      * @param array $data
      */
-    public function __construct($data = array())
+    public function __construct(array $data = array())
     {
         parent::__construct($data);
-
         $this->setMasterModel(new VariantLocationModel());
-    }
-
-    protected function getTables(): array
-    {
-        return [
-            'variantslocations',
-            'locations',
-            'almacenes',
-            'variantes'
-        ];
     }
 
     protected function getFields(): array
@@ -70,6 +59,7 @@ class VariantLocation extends JoinModel
             'namewarehouse' => 'almacenes.nombre',
             'nameproduct' => 'productos.descripcion',
             'referenceproduct' => 'productos.referencia',
+            'blocked' => 'productos.bloqueado',
             'barcode' => 'variantes.codbarras',
             'idattribute1' => 'variantes.idatributovalor1',
             'idattribute2' => 'variantes.idatributovalor2',
@@ -78,7 +68,8 @@ class VariantLocation extends JoinModel
         ];
     }
 
-    protected function getSQLFrom(): string {
+    protected function getSQLFrom(): string
+    {
         return 'variantslocations'
             . ' INNER JOIN productos ON productos.idproducto = variantslocations.idproduct'
             . ' INNER JOIN variantes ON variantes.referencia = variantslocations.reference'
@@ -86,5 +77,10 @@ class VariantLocation extends JoinModel
             . ' LEFT JOIN almacenes ON almacenes.codalmacen = locations.codewarehouse'
             . ' LEFT JOIN atributos_valores attribute1 ON attribute1.id = variantes.idatributovalor1'
             . ' LEFT JOIN atributos_valores attribute2 ON attribute2.id = variantes.idatributovalor2';
+    }
+
+    protected function getTables(): array
+    {
+        return [];
     }
 }

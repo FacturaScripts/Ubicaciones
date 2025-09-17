@@ -2,7 +2,7 @@
 /**
  * This file is part of Ubicaciones plugin for FacturaScripts.
  * FacturaScripts Copyright (C) 2015-2022 Carlos Garcia Gomez <carlos@facturascripts.com>
- * Ubicaciones    Copyright (C) 2019-2022 Jose Antonio Cuello Principal <yopli2000@gmail.com>
+ * Ubicaciones    Copyright (C) 2019-2024 Jose Antonio Cuello Principal <yopli2000@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -19,10 +19,18 @@
  */
 namespace FacturaScripts\Plugins\Ubicaciones\Extension\Controller;
 
+use Closure;
+use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
+use FacturaScripts\Core\Tools;
+use FacturaScripts\Dinamic\Model\CodeModel;
+
 /**
- *  Controller to list the items in the List Product controller
+ * Controller to list the items in the List Product controller
  *
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
+ *
+ * @property CodeModel $codeModel
+ * @method addView(string $viewName, string $model, string $title, string $icon)
  */
 class ListProducto
 {
@@ -31,7 +39,7 @@ class ListProducto
      */
     public function createViews()
     {
-        return function() {
+        return function () {
             $this->createViewVariantLocations();
         };
     }
@@ -39,29 +47,43 @@ class ListProducto
     /**
      * Add and configure Variant Location list view
      *
-     * @param string $viewName
+     * @return Closure
      */
-    public function createViewVariantLocations()
+    public function createViewVariantLocations(): Closure
     {
-        return function($viewName = 'ListVariantLocation') {
-            $this->addView($viewName, 'Join\VariantLocation', 'locations', 'fas fa-search-location');
-            $this->addSearchFields($viewName, ['aisle', 'rack', 'shelf', 'drawer']);
-            $this->addOrderBy($viewName, ['codewarehouse', 'aisle', 'rack', 'shelf', 'drawer'], 'warehouse');
-            $this->addOrderBy($viewName, ['aisle', 'rack', 'shelf', 'drawer', 'codewarehouse'], 'location');
+        return function ($viewName = 'ListVariantLocation') {
+            $view = $this->addView($viewName, 'Join\VariantLocation', 'locations', 'fas fa-search-location')
+                // SETTINGS
+                ->setSettings($viewName, 'btnNew', false)
+                ->setSettings($viewName, 'btnDelete', false)
+                ->setSettings($viewName, 'checkBoxes', false)
+                // SEARCH & ORDER
+                ->addSearchFields(['aisle', 'rack', 'shelf', 'drawer'])
+                ->addOrderBy(['codewarehouse', 'aisle', 'rack', 'shelf', 'drawer'], 'warehouse')
+                ->addOrderBy(['aisle', 'rack', 'shelf', 'drawer', 'codewarehouse'], 'location');
 
+            // FILTERS
             $warehouseValues = $this->codeModel->all('almacenes', 'codalmacen', 'nombre');
-            $this->addFilterSelect($viewName, 'warehouse', 'warehouse', 'codewarehouse', $warehouseValues);
+            $view->addFilterSelect('warehouse', 'warehouse', 'codewarehouse', $warehouseValues);
 
             $aisleValues = $this->codeModel->all('locations', 'aisle', 'aisle');
-            $this->addFilterSelect($viewName, 'aisle', 'aisle', 'aisle', $aisleValues);
+            $view->addFilterSelect('aisle', 'aisle', 'aisle', $aisleValues);
 
-            $this->addFilterAutocomplete($viewName, 'product', 'product', 'productos.referencia', 'productos', 'referencia', 'descripcion');
-            $this->addFilterAutocomplete($viewName, 'reference', 'reference', 'reference', 'Variante', 'referencia', 'referencia');
+            $i18n = Tools::lang();
+            $view->addFilterSelectWhere('type', [
+                ['label' => $i18n->trans('type'), 'where' => []],
+                ['label' => $i18n->trans('storage'), 'where' => [new DataBaseWhere('locations.storagetype', 0)]],
+                ['label' => $i18n->trans('picking'), 'where' => [new DataBaseWhere('locations.storagetype', 1)]],
+            ]);
 
-            /// disable buttons
-            $this->setSettings($viewName, 'btnNew', false);
-            $this->setSettings($viewName, 'btnDelete', false);
-            $this->setSettings($viewName, 'checkBoxes', false);
+            $view->addFilterSelectWhere('status', [
+                ['label' => $i18n->trans('status'), 'where' => []],
+                ['label' => $i18n->trans('not-blocked'), 'where' => [new DataBaseWhere('COALESCE(productos.bloqueado, 0)', 0)]],
+                ['label' => $i18n->trans('blocked'), 'where' => [new DataBaseWhere('COALESCE(productos.bloqueado, 0)', 1)]],
+            ]);
+
+            $view->addFilterAutocomplete('product', 'product', 'productos.referencia', 'productos', 'referencia', 'descripcion');
+            $view->addFilterAutocomplete('reference', 'reference', 'reference', 'Variante', 'referencia', 'referencia');
         };
     }
 }

@@ -2,7 +2,7 @@
 <!--
     This file is part of Ubicaciones plugin for FacturaScripts.
     FacturaScripts Copyright (C) 2015-2022 Carlos Garcia Gomez <carlos@facturascripts.com>
-    Ubicaciones    Copyright (C) 2019-2022 Jose Antonio Cuello Principal <yopli2000@gmail.com>
+    Ubicaciones    Copyright (C) 2019-2024 Jose Antonio Cuello Principal <yopli2000@gmail.com>
 
     Document   : variantslocations.xml
     Author     : Jose Antonio Cuello Principal
@@ -35,16 +35,16 @@
         <type>PRIMARY KEY (id)</type>
     </constraint>
     <constraint>
-        <name>ca_variantslocations_locations</name>
-        <type>FOREIGN KEY (idlocation) REFERENCES locations (id) ON DELETE RESTRICT ON UPDATE CASCADE</type>
+        <name>ca_variantslocations_locations2</name>
+        <type>FOREIGN KEY (idlocation) REFERENCES locations (id) ON DELETE CASCADE ON UPDATE CASCADE</type>
     </constraint>
     <constraint>
         <name>ca_variantslocations_products</name>
         <type>FOREIGN KEY (idproduct) REFERENCES productos (idproducto) ON DELETE CASCADE ON UPDATE CASCADE</type>
     </constraint>
     <constraint>
-        <name>ca_variantslocations_variants</name>
-        <type>FOREIGN KEY (reference) REFERENCES variantes (referencia) ON DELETE RESTRICT ON UPDATE CASCADE</type>
+        <name>ca_variantslocations_variants2</name>
+        <type>FOREIGN KEY (reference) REFERENCES variantes (referencia) ON DELETE CASCADE ON UPDATE CASCADE</type>
     </constraint>
     <constraint>
         <name>uniq_variantslocations</name>

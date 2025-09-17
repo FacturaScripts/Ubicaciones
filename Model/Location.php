@@ -2,7 +2,7 @@
 /**
  * This file is part of Ubicaciones plugin for FacturaScripts.
  * FacturaScripts Copyright (C) 2015-2022 Carlos Garcia Gomez <carlos@facturascripts.com>
- * Ubicaciones    Copyright (C) 2019-2022 Jose Antonio Cuello Principal <yopli2000@gmail.com>
+ * Ubicaciones    Copyright (C) 2019-2024 Jose Antonio Cuello Principal <yopli2000@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -22,6 +22,7 @@ namespace FacturaScripts\Plugins\Ubicaciones\Model;
 
 use FacturaScripts\Core\Model\Base\ModelClass;
 use FacturaScripts\Core\Model\Base\ModelTrait;
+use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Almacen;
 
 /**
@@ -31,6 +32,9 @@ use FacturaScripts\Dinamic\Model\Almacen;
  */
 class Location extends ModelClass
 {
+
+    public const STORAGE_TYPE_STORAGE = 0;
+    public const STORAGE_TYPE_PICKING = 1;
 
     use ModelTrait;
 
@@ -77,11 +81,29 @@ class Location extends ModelClass
     public $shelf;
 
     /**
+     * Type of storage.
+     *   - 0: Storage
+     *   - 1: Picking
+     *
+     * @var int
+     */
+    public $storagetype;
+
+    /**
      * Shelf validation code. This is normally used in the preparation of sales orders.
      *
      * @var string
      */
     public $validationcode;
+
+    /**
+     * Reset the values of all model properties.
+     */
+    public function clear()
+    {
+        parent::clear();
+        $this->storagetype = self::STORAGE_TYPE_STORAGE;
+    }
 
     /**
      * Get complete description for location
@@ -90,7 +112,7 @@ class Location extends ModelClass
      */
     public function descriptionComplete(): string
     {
-        $i18n = static::toolBox()->i18n();
+        $i18n = Tools::lang();
         $description = '';
         $this->addToDescription($description, $this->aisle, $i18n->trans('aisle'));
         $this->addToDescription($description, $this->rack, $i18n->trans('rack'));
@@ -157,7 +179,7 @@ class Location extends ModelClass
     public function test(): bool
     {
         if (!$this->hasValues()) {
-            $this->toolBox()->i18nLog()->warning('one-field-required');
+            Tools::log()->warning('one-field-required');
             return false;
         }
         return parent::test();
