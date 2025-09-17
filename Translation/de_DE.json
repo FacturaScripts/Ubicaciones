@@ -1,0 +1,13 @@
+{
+    "aisle": "Gang",
+    "drawer": "Schubfach",
+    "location-desc": "Physische Lage der Ware. Sie können verschiedene Werte (Gang\/Schrank\/Regal\/Schublade) durch Leerzeichen getrennt eingeben. Dies hilft Ihnen, bei der Auswahl des Standorts zu filtern. <b>WICHTIG:<\/b> Sobald ein Standort ausgewählt ist, müssen Sie den gesamten Text löschen, um einen anderen auszuwählen.",
+    "location-leyend": "Legende der Standortinformation",
+    "locations": "Standorte",
+    "one-field-required": "Erforderlich",
+    "rack": "Regal",
+    "shelf": "Regal",
+    "validation-code": "Bestätigungscode",
+    "variant-location": "Warenstandort",
+    "warehouse-required": "Sie müssen ein Lager eingeben"
+}

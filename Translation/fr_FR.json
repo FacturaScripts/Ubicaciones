@@ -1,0 +1,13 @@
+{
+    "aisle": "Allée",
+    "drawer": "Tiroir",
+    "location-desc": "L'emplacement physique de la marchandise. Vous pouvez entrer les différentes valeurs (Allée\/Rayon\/Étagère\/Tiroir) séparées par des espaces. Cela vous aidera à filtrer lors de la sélection de l'emplacement. <b>IMPORTANT :<\/b> Une fois qu'un emplacement est sélectionné, vous devrez effacer tout le texte pour en sélectionner un autre.",
+    "location-leyend": "Légende de l'emplacement de la marchandise",
+    "locations": "Emplacements",
+    "one-field-required": "Vous devez reporter au moins une valeur pour les champs",
+    "rack": "Rayon",
+    "shelf": "Étagère",
+    "validation-code": "Code de validation",
+    "variant-location": "Emplacement de la marchandise",
+    "warehouse-required": "Vous devez spécifier un entrepôt"
+}

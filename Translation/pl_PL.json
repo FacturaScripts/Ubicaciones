@@ -1,0 +1,13 @@
+{
+    "aisle": "Aisle",
+    "drawer": "Pudełko",
+    "location-desc": "Fizyczna lokalizacja towaru. Możesz wprowadzić różne wartości (Korytarz\/Szafa\/Półka\/Szuflada) rozdzielone spacją. Pomoże to w filtrowaniu podczas wybierania lokalizacji. <b>WAŻNE:<\/b> Po wybraniu lokalizacji, musisz usunąć cały tekst, aby wybrać inną.",
+    "location-leyend": "Legenda położenia towarów",
+    "locations": "Lokalizacje",
+    "one-field-required": "Musisz podać co najmniej jedną wartość dla pól",
+    "rack": "Szafka",
+    "shelf": "Półka",
+    "validation-code": "Kod walidacji",
+    "variant-location": "Lokalizacja towaru",
+    "warehouse-required": "Należy wskazać magazyn"
+}

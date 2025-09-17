@@ -1,0 +1,13 @@
+{
+    "aisle": "Corredor",
+    "drawer": "Caixón",
+    "location-desc": "Localización física da mercadoría. Pode introducir os distintos valores (Corredor\/Armario\/Estante\/Caixón) separados por espazo. Isto axudaralle a filtrar á hora de seleccionar a localización. <b>IMPORTANTE:<\/b> Unha vez seleccionada unha localización deberá borrar todo o texto para seleccionar outra.",
+    "location-leyend": "Lenda de Localización de mercadoría",
+    "locations": "Localizacións",
+    "one-field-required": "Debe informar polo menos un valor para os campos",
+    "rack": "Armario",
+    "shelf": "Estante",
+    "validation-code": "Cód. validación",
+    "variant-location": "Localización de mercadoría",
+    "warehouse-required": "Debe informar un almacén"
+}

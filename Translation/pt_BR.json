@@ -1,0 +1,13 @@
+{
+    "aisle": "Corredor",
+    "drawer": "gaveta",
+    "location-desc": "Localização física da mercadoria. Pode introduzir os diferentes valores (Corredor\/Armário\/Prateleira\/Gaveta) separados por espaço. Isso ajudará a filtrar na hora de selecionar a localização. <b>IMPORTANTE:<\/b> Uma vez selecionada uma localização, deverá apagar todo o texto para selecionar outra.",
+    "location-leyend": "leitura de localização",
+    "locations": "locais",
+    "one-field-required": "É necessário preencher pelo menos um campo",
+    "rack": "Rack",
+    "shelf": "prateleira",
+    "validation-code": "Código de Validação",
+    "variant-location": "v",
+    "warehouse-required": "Deve informar um armazém"
+}

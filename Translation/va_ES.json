@@ -1,0 +1,13 @@
+{
+    "aisle": "Corredor",
+    "drawer": "drawer",
+    "location-desc": "location-desc",
+    "location-leyend": "location-leyend",
+    "locations": "locations",
+    "one-field-required": "one-field-required",
+    "rack": "rack",
+    "shelf": "shelf",
+    "validation-code": "validation-code",
+    "variant-location": "variant-location",
+    "warehouse-required": "warehouse-required"
+}

@@ -7,7 +7,7 @@
     "one-field-required": "Debe informar al menos un valor para los campos",
     "rack": "Armario",
     "shelf": "Estante",
-    "validation-code": "Cod. Validación",
+    "validation-code": "Ověřovací kód",
     "variant-location": "Ubicación de mercancía",
     "warehouse-required": "Debe informar un almacén"
 }

@@ -1,0 +1,13 @@
+{
+    "aisle": "corsia",
+    "drawer": "cassetto",
+    "location-desc": "descrizione della posizione",
+    "location-leyend": "Leggenda della posizione della merce",
+    "locations": "posizioni",
+    "one-field-required": "un campo richiesto",
+    "rack": "Armadietto",
+    "shelf": "scaffale",
+    "validation-code": "codice di validazione",
+    "variant-location": "Posizione della merce",
+    "warehouse-required": "È necessario specificare un magazzino"
+}

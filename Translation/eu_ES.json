@@ -1,0 +1,13 @@
+{
+    "aisle": "Pasilloa",
+    "drawer": "Kutxa",
+    "location-desc": "Merkantziaren kokapen fisikoa. Espazioz bereizitako balio desberdinak (Pasillloa\/Armairua\/Apala\/Kutxa) sar ditzakezu. Horrek kokapena hautatzerakoan iragazten lagunduko dizu. <b> GARRANTZITSUA: <\/b> Kokapen bat aukeratu ondoren, testu guztia ezabatu behar duzu beste bat hautatzeko.",
+    "location-leyend": "Merkantziaren kokapenaren legenda",
+    "locations": "Kokapenak",
+    "one-field-required": "Eremuetarako gutxienez balio bat adierazi behar duzu",
+    "rack": "Armairua",
+    "shelf": "Apala",
+    "validation-code": "Balioztatze kodea",
+    "variant-location": "Merkantziaren kokapena",
+    "warehouse-required": "Biltegi bat adierazi behar duzu"
+}
