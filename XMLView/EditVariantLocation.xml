@@ -20,7 +20,7 @@
 
 <view>
     <columns>
-        <group name="product" title="product" numcolumns="12" icon="fas fa-cube">
+        <group name="product" title="product" numcolumns="12" icon="fa-solid fa-cube">
             <column name="code" display="none" order="100">
                 <widget type="text" fieldname="id" readonly="true" />
             </column>
@@ -28,7 +28,7 @@
                 <widget type="text" fieldname="idproduct" readonly="true" />
             </column>
             <column name="product" numcolumns="2" order="110">
-                <widget type="text" fieldname="productreference" icon="fas fa-hashtag" readonly="true" />
+                <widget type="text" fieldname="productreference" icon="fa-solid fa-hashtag" readonly="true" />
             </column>
             <column name="description" numcolumns="7" order="120">
                 <widget type="text" fieldname="productdescription" readonly="true" />
@@ -39,14 +39,14 @@
                 </widget>
             </column>
         </group>
-        <group name="warehouse" title="warehouse" numcolumns="4" icon="fas fa-warehouse">
+        <group name="warehouse" title="warehouse" numcolumns="4" icon="fa-solid fa-warehouse">
             <column name="warehouse" order="210">
                 <widget type="select" fieldname="codewarehouse" onclick="EditAlmacen" readonly="dinamic">
                     <values source="almacenes" fieldcode="codalmacen" fieldtitle="nombre"></values>
                 </widget>
             </column>
         </group>
-        <group name="location" title="location" numcolumns="8" icon="fas fa-search-location">
+        <group name="location" title="location" numcolumns="8" icon="fa-solid fa-search-location">
             <column name="location" order="200">
                 <widget type="autocomplete" fieldname="idlocation" required="true">
                     <values source="locations" fieldcode="id" fieldtitle=""></values>
@@ -62,7 +62,7 @@
     </columns>
     <rows>
         <row type="actions">
-            <button type="js" label='help' color="primary" action="$('#help-card').toggle()" icon="fas fa-question-circle" />
+            <button type="js" label='help' color="primary" action="$('#help-card').toggle()" icon="fa-solid fa-question-circle" />
         </row>
         <row type="footer">
             <group name="help" id="help-card" class="collapse" html="Block/EditVariantLocationInfo.html.twig"></group>

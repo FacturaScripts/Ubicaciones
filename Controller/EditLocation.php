@@ -20,6 +20,8 @@
 namespace FacturaScripts\Plugins\Ubicaciones\Controller;
 
 use FacturaScripts\Core\Lib\ExtendedController\EditController;
+use FacturaScripts\Core\Tools;
+
 
 /**
  * Controller to edit a single item from the Location model
@@ -47,7 +49,7 @@ class EditLocation extends EditController
         $pagedata = parent::getPageData();
         $pagedata['title'] = 'location';
         $pagedata['menu'] = 'warehouse';
-        $pagedata['icon'] = 'fas fa-map-marker-alt';
+        $pagedata['icon'] = 'fa-solid fa-map-marker-alt';
         $pagedata['showonmenu'] = false;
 
         return $pagedata;

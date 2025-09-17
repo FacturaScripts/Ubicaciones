@@ -19,7 +19,9 @@
  */
 namespace FacturaScripts\Plugins\Ubicaciones;
 
-use FacturaScripts\Core\Base\InitClass;
+use FacturaScripts\Core\Template\InitClass;
+use FacturaScripts\Core\Tools;
+
 
 /**
  * Plugin Inicialization
@@ -28,14 +30,20 @@ use FacturaScripts\Core\Base\InitClass;
  */
 class Init extends InitClass
 {
-    public function init()
+    public function init(): void
     {
         $this->loadExtension(new Extension\Controller\ListAlmacen());
         $this->loadExtension(new Extension\Controller\ListProducto());
         $this->loadExtension(new Extension\Controller\EditProducto());
     }
 
-    public function update()
+    public function update(): void
     {
+    }
+
+
+    public function uninstall(): void
+    {
+        // código de desinstalación aquí
     }
 }

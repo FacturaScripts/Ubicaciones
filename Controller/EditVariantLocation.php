@@ -21,6 +21,8 @@ namespace FacturaScripts\Plugins\Ubicaciones\Controller;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Lib\ExtendedController\EditController;
+use FacturaScripts\Core\Tools;
+
 use FacturaScripts\Dinamic\Model\Producto;
 use FacturaScripts\Dinamic\Model\Variante;
 use FacturaScripts\Plugins\Ubicaciones\Model\Location;
@@ -59,7 +61,7 @@ class EditVariantLocation extends EditController
         $pagedata = parent::getPageData();
         $pagedata['title'] = 'variant-location';
         $pagedata['menu'] = 'warehouse';
-        $pagedata['icon'] = 'fas fa-search-location';
+        $pagedata['icon'] = 'fa-solid fa-search-location';
         $pagedata['showonmenu'] = false;
 
         return $pagedata;
@@ -123,7 +125,7 @@ class EditVariantLocation extends EditController
         }
 
         if (empty($results)) {
-            $i18n = static::toolBox()->i18n();
+            $i18n = Tools::lang();
             $results[] = ['key' => null, 'value' => $i18n->trans('no-data')];
         }
 
@@ -209,7 +211,7 @@ class EditVariantLocation extends EditController
         }
 
         $location = new Location();
-        if (false === $location->loadFromCode($idlocation)) {
+        if (false === $location->load($idlocation)) {
             return;
         }
 
@@ -234,7 +236,7 @@ class EditVariantLocation extends EditController
         }
 
         $product = new Producto();
-        if ($product->loadFromCode($idproduct)) {
+        if ($product->load($idproduct)) {
             // Inject the product values into the main model. Is necessary for the xml view.
             $mainModel = $this->getModel();
             $mainModel->productreference = $product->referencia;

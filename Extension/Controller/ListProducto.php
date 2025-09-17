@@ -52,7 +52,7 @@ class ListProducto
     public function createViewVariantLocations(): Closure
     {
         return function ($viewName = 'ListVariantLocation') {
-            $view = $this->addView($viewName, 'Join\VariantLocation', 'locations', 'fas fa-search-location')
+            $view = $this->addView($viewName, 'Join\VariantLocation', 'locations', 'fa-solid fa-search-location')
                 // SETTINGS
                 ->setSettings($viewName, 'btnNew', false)
                 ->setSettings($viewName, 'btnDelete', false)

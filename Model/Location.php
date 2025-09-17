@@ -20,8 +20,8 @@
 
 namespace FacturaScripts\Plugins\Ubicaciones\Model;
 
-use FacturaScripts\Core\Model\Base\ModelClass;
-use FacturaScripts\Core\Model\Base\ModelTrait;
+use FacturaScripts\Core\Template\ModelClass;
+use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Almacen;
 
@@ -99,7 +99,7 @@ class Location extends ModelClass
     /**
      * Reset the values of all model properties.
      */
-    public function clear()
+    public function clear(): void
     {
         parent::clear();
         $this->storagetype = self::STORAGE_TYPE_STORAGE;
@@ -129,7 +129,7 @@ class Location extends ModelClass
     public static function descriptionLocation($idlocation): string
     {
         $location = new self();
-        if ($location->loadFromCode($idlocation)) {
+        if ($location->load($idlocation)) {
             return $location->descriptionComplete();
         }
         return $idlocation;

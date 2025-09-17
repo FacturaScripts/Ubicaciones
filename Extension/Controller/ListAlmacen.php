@@ -19,6 +19,9 @@
  */
 namespace FacturaScripts\Plugins\Ubicaciones\Extension\Controller;
 
+use FacturaScripts\Core\Tools;
+
+
 /**
  *  Controller to list the items in the list warehouse controller
  *
@@ -44,7 +47,7 @@ class ListAlmacen
     public function createViewLocations()
     {
         return function($viewName = 'ListLocation') {
-            $this->addView($viewName, 'Location', 'locations', 'fas fa-map-marker-alt');
+            $this->addView($viewName, 'Location', 'locations', 'fa-solid fa-map-marker-alt');
             $this->addSearchFields($viewName, ['aisle', 'rack', 'shelf', 'drawer']);
             $this->addOrderBy($viewName, ['codewarehouse', 'aisle', 'rack', 'shelf', 'drawer'], 'warehouse');
             $this->addOrderBy($viewName, ['aisle', 'rack', 'shelf', 'drawer', 'codewarehouse'], 'aisle');

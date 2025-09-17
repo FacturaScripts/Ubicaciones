@@ -20,6 +20,8 @@
 namespace FacturaScripts\Plugins\Ubicaciones\Extension\Controller;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
+use FacturaScripts\Core\Tools;
+
 
 /**
  * Controller to edit a single item from the Producto controller
@@ -46,7 +48,7 @@ class EditProducto
     public function createViewVariantLocations()
     {
         return function($viewName = 'ListVariantLocation') {
-            $this->addListView($viewName, 'Join\VariantLocation', 'locations', 'fas fa-search-location');
+            $this->addListView($viewName, 'Join\VariantLocation', 'locations', 'fa-solid fa-search-location');
             $this->views[$viewName]->addOrderBy(['codewarehouse', 'aisle', 'rack', 'shelf', 'drawer'], 'warehouse');
             $this->views[$viewName]->addOrderBy(['aisle', 'rack', 'shelf', 'drawer', 'codewarehouse'], 'location');
             $this->views[$viewName]->searchFields = ['aisle', 'rack', 'shelf', 'drawer'];
