@@ -1,8 +1,8 @@
 <?php
 /**
  * This file is part of Ubicaciones plugin for FacturaScripts.
- * FacturaScripts Copyright (C) 2015-2022 Carlos Garcia Gomez <carlos@facturascripts.com>
- * Ubicaciones    Copyright (C) 2019-2024 Jose Antonio Cuello Principal <yopli2000@gmail.com>
+ * FacturaScripts Copyright (C) 2015-2025 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Ubicaciones    Copyright (C) 2019-2025 Jose Antonio Cuello Principal <yopli2000@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -19,44 +19,42 @@
  */
 namespace FacturaScripts\Plugins\Ubicaciones\Extension\Controller;
 
-use FacturaScripts\Core\Tools;
-
+use Closure;
+use FacturaScripts\Core\Model\CodeModel;
 
 /**
  *  Controller to list the items in the list warehouse controller
  *
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
+ *
+ * @method addView(string $viewName, string $model, string $title, string $icon): ListView
  */
 class ListAlmacen
 {
     /**
      * Load views
      */
-    public function createViews()
+    public function createViews(): Closure
     {
-        return function() {
+        return function(): void {
             $this->createViewLocations();
         };
     }
 
     /**
      * Add and configure Location list view
-     *
-     * @param string $viewName
      */
-    public function createViewLocations()
+    public function createViewLocations(): Closure
     {
-        return function($viewName = 'ListLocation') {
-            $this->addView($viewName, 'Location', 'locations', 'fa-solid fa-map-marker-alt');
-            $this->addSearchFields($viewName, ['aisle', 'rack', 'shelf', 'drawer']);
-            $this->addOrderBy($viewName, ['codewarehouse', 'aisle', 'rack', 'shelf', 'drawer'], 'warehouse');
-            $this->addOrderBy($viewName, ['aisle', 'rack', 'shelf', 'drawer', 'codewarehouse'], 'aisle');
-
-            $warehouseValues = $this->codeModel->all('almacenes', 'codalmacen', 'nombre');
-            $this->addFilterSelect($viewName, 'warehouse', 'warehouse', 'codewarehouse', $warehouseValues);
-
-            $aisleValues = $this->codeModel->all('locations', 'aisle', 'aisle');
-            $this->addFilterSelect($viewName, 'aisle', 'aisle', 'aisle', $aisleValues);
+        return function($viewName = 'ListLocation'): void {
+            $this->addView($viewName, 'Location', 'locations', 'fa-solid fa-map-marker-alt')
+                ->addSearchFields(['aisle', 'rack', 'shelf', 'drawer'])
+                ->addOrderBy(['codewarehouse', 'aisle', 'rack', 'shelf', 'drawer'], 'warehouse')
+                ->addOrderBy(['aisle', 'rack', 'shelf', 'drawer', 'codewarehouse'], 'aisle')
+                ->addFilterSelect('warehouse', 'warehouse', 'codewarehouse',
+                    CodeModel::all('almacenes', 'codalmacen', 'nombre'))
+                ->addFilterSelect('aisle', 'aisle', 'aisle',
+                    CodeModel::all('locations', 'aisle', 'aisle'));
         };
     }
 }

@@ -1,8 +1,8 @@
 <?php
 /**
  * This file is part of Ubicaciones plugin for FacturaScripts.
- * FacturaScripts Copyright (C) 2015-2022 Carlos Garcia Gomez <carlos@facturascripts.com>
- * Ubicaciones    Copyright (C) 2019-2024 Jose Antonio Cuello Principal <yopli2000@gmail.com>
+ * FacturaScripts Copyright (C) 2015-2025 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Ubicaciones    Copyright (C) 2019-2025 Jose Antonio Cuello Principal <yopli2000@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -19,60 +19,55 @@
  */
 namespace FacturaScripts\Plugins\Ubicaciones\Extension\Controller;
 
+use Closure;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\Tools;
-
 
 /**
  * Controller to edit a single item from the Producto controller
  *
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
+ *
+ * @method addListView(string $viewName, string $model, string $title, string $icon): ListView
+ * @method getModel(string $string): mixed
  */
 class EditProducto
 {
     /**
      * Load views
      */
-    public function createViews()
+    public function createViews(): Closure
     {
-        return function() {
+        return function (): void {
             $this->createViewVariantLocations();
         };
     }
 
     /**
      * Add and configure Variant Location list view
-     *
-     * @param string $viewName
      */
-    public function createViewVariantLocations()
+    public function createViewVariantLocations(): Closure
     {
-        return function($viewName = 'ListVariantLocation') {
-            $this->addListView($viewName, 'Join\VariantLocation', 'locations', 'fa-solid fa-search-location');
-            $this->views[$viewName]->addOrderBy(['codewarehouse', 'aisle', 'rack', 'shelf', 'drawer'], 'warehouse');
-            $this->views[$viewName]->addOrderBy(['aisle', 'rack', 'shelf', 'drawer', 'codewarehouse'], 'location');
-            $this->views[$viewName]->searchFields = ['aisle', 'rack', 'shelf', 'drawer'];
-
-            /// disable column
-            $this->views[$viewName]->disableColumn('product');
+        return function($viewName = 'ListVariantLocation'): void {
+            $this->addListView($viewName, 'Join\VariantLocation', 'locations', 'fa-solid fa-search-location')
+                // Settings
+                ->disableColumn('product')
+                // Search and order
+                ->addSearchFields(['aisle', 'rack', 'shelf', 'drawer'])
+                ->addOrderBy(['codewarehouse', 'reference'], 'reference', 1)
+                ->addOrderBy(['codewarehouse', 'aisle', 'rack', 'shelf', 'drawer'], 'warehouse')
+                ->addOrderBy(['aisle', 'rack', 'shelf', 'drawer', 'codewarehouse'], 'location');
         };
     }
 
     /**
      * Load view data procedure
-     *
-     * @param string                      $viewName
-     * @param ExtendedController\BaseView $view
      */
-    public function loadData()
+    public function loadData(): Closure
     {
-        return function($viewName, $view) {
+        return function($viewName, $view): void {
             if ($viewName == 'ListVariantLocation') {
-                $mainViewName = $this->getMainViewName();
-                $idproduct = $this->getViewModelValue($mainViewName, 'idproducto');
-                $where = [new DataBaseWhere('idproduct', $idproduct)];
-                $order = ['codewarehouse' => 'ASC', 'reference' => 'ASC'];
-                $view->loadData('', $where, $order);
+                $where = [new DataBaseWhere('idproduct', $this->getModel('idproducto'))];
+                $view->loadData('', $where);
             }
         };
     }

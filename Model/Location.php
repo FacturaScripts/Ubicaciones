@@ -1,8 +1,8 @@
 <?php
 /**
  * This file is part of Ubicaciones plugin for FacturaScripts.
- * FacturaScripts Copyright (C) 2015-2022 Carlos Garcia Gomez <carlos@facturascripts.com>
- * Ubicaciones    Copyright (C) 2019-2024 Jose Antonio Cuello Principal <yopli2000@gmail.com>
+ * FacturaScripts Copyright (C) 2015-2025 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Ubicaciones    Copyright (C) 2019-2025 Jose Antonio Cuello Principal <yopli2000@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -32,7 +32,6 @@ use FacturaScripts\Dinamic\Model\Almacen;
  */
 class Location extends ModelClass
 {
-
     public const STORAGE_TYPE_STORAGE = 0;
     public const STORAGE_TYPE_PICKING = 1;
 
@@ -124,15 +123,16 @@ class Location extends ModelClass
     /**
      * Get complete description for specified location
      *
+     * @param int $idlocation
      * @return string
      */
-    public static function descriptionLocation($idlocation): string
+    public static function descriptionLocation(int $idlocation): string
     {
         $location = new self();
         if ($location->load($idlocation)) {
             return $location->descriptionComplete();
         }
-        return $idlocation;
+        return (string)$idlocation;
     }
 
     /**
@@ -145,9 +145,7 @@ class Location extends ModelClass
     public function install(): string
     {
         new Almacen();
-        parent::install();
-
-        return '';
+        return parent::install();
     }
 
     /**
@@ -178,7 +176,7 @@ class Location extends ModelClass
      */
     public function test(): bool
     {
-        if (!$this->hasValues()) {
+        if (false === $this->hasValues()) {
             Tools::log()->warning('one-field-required');
             return false;
         }
@@ -190,7 +188,6 @@ class Location extends ModelClass
      *
      * @param string $type
      * @param string $list
-     *
      * @return string
      */
     public function url(string $type = 'auto', string $list = 'List'): string
@@ -199,18 +196,19 @@ class Location extends ModelClass
     }
 
     /**
+     * Append a value to the description string if the value is not empty.
      *
      * @param string $description
      * @param string $value
      * @param string $label
      */
-    private function addToDescription(&$description, $value, $label)
+    private function addToDescription(string &$description, string $value, string $label): void
     {
         if (($value == '') || ($value == null)) {
             return;
         }
 
-        if (!empty($description)) {
+        if (false === empty($description)) {
             $description .= ' > ';
         }
 
@@ -224,7 +222,7 @@ class Location extends ModelClass
      */
     private function hasValues(): bool
     {
-        return !(empty($this->aisle)
+        return false === (empty($this->aisle)
             && empty($this->rack)
             && empty($this->shelf)
             && empty($this->drawer)

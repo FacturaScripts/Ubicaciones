@@ -1,8 +1,8 @@
 <?php
 /**
  * This file is part of Ubicaciones plugin for FacturaScripts.
- * FacturaScripts Copyright (C) 2015-2022 Carlos Garcia Gomez <carlos@facturascripts.com>
- * Ubicaciones    Copyright (C) 2019-2024 Jose Antonio Cuello Principal <yopli2000@gmail.com>
+ * FacturaScripts Copyright (C) 2015-2025 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Ubicaciones    Copyright (C) 2019-2025 Jose Antonio Cuello Principal <yopli2000@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -20,8 +20,6 @@
 namespace FacturaScripts\Plugins\Ubicaciones\Controller;
 
 use FacturaScripts\Core\Lib\ExtendedController\EditController;
-use FacturaScripts\Core\Tools;
-
 
 /**
  * Controller to edit a single item from the Location model
@@ -30,7 +28,6 @@ use FacturaScripts\Core\Tools;
  */
 class EditLocation extends EditController
 {
-
     /**
      * Returns the model name
      */
@@ -46,12 +43,10 @@ class EditLocation extends EditController
      */
     public function getPageData(): array
     {
-        $pagedata = parent::getPageData();
-        $pagedata['title'] = 'location';
-        $pagedata['menu'] = 'warehouse';
-        $pagedata['icon'] = 'fa-solid fa-map-marker-alt';
-        $pagedata['showonmenu'] = false;
-
-        return $pagedata;
+        $pageData = parent::getPageData();
+        $pageData['title'] = 'location';
+        $pageData['menu'] = 'warehouse';
+        $pageData['icon'] = 'fa-solid fa-map-marker-alt';
+        return $pageData;
     }
 }

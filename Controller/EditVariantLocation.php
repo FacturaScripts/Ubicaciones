@@ -1,8 +1,8 @@
 <?php
 /**
  * This file is part of Ubicaciones plugin for FacturaScripts.
- * FacturaScripts Copyright (C) 2015-2022 Carlos Garcia Gomez <carlos@facturascripts.com>
- * Ubicaciones    Copyright (C) 2019-2024 Jose Antonio Cuello Principal <yopli2000@gmail.com>
+ * FacturaScripts Copyright (C) 2015-2025 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Ubicaciones    Copyright (C) 2019-2025 Jose Antonio Cuello Principal <yopli2000@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -22,7 +22,7 @@ namespace FacturaScripts\Plugins\Ubicaciones\Controller;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Lib\ExtendedController\EditController;
 use FacturaScripts\Core\Tools;
-
+use FacturaScripts\Dinamic\Lib\ExtendedController\BaseView;
 use FacturaScripts\Dinamic\Model\Producto;
 use FacturaScripts\Dinamic\Model\Variante;
 use FacturaScripts\Plugins\Ubicaciones\Model\Location;
@@ -34,12 +34,12 @@ use FacturaScripts\Plugins\Ubicaciones\Model\Location;
  */
 class EditVariantLocation extends EditController
 {
-
+    /**
+     * Create the view to display.
+     */
     protected function createViews()
     {
         parent::createViews();
-
-        /// disable new button
         $this->setSettings($this->getMainViewName(), 'btnNew', false);
     }
 
@@ -58,13 +58,11 @@ class EditVariantLocation extends EditController
      */
     public function getPageData(): array
     {
-        $pagedata = parent::getPageData();
-        $pagedata['title'] = 'variant-location';
-        $pagedata['menu'] = 'warehouse';
-        $pagedata['icon'] = 'fa-solid fa-search-location';
-        $pagedata['showonmenu'] = false;
-
-        return $pagedata;
+        $pageData = parent::getPageData();
+        $pageData['title'] = 'variant-location';
+        $pageData['menu'] = 'warehouse';
+        $pageData['icon'] = 'fa-solid fa-search-location';
+        return $pageData;
     }
 
     /**
@@ -77,10 +75,9 @@ class EditVariantLocation extends EditController
     {
         parent::loadData($viewName, $view);
 
-        $mainViewName = $this->getMainViewName();
-        if ($viewName == $mainViewName) {
-            $view->disableColumn('code', true);  // Force disable PK column
-            $view->disableColumn('product-code', true);  // Force disable Link column with product
+        if ($viewName === $this->getMainViewName()) {
+            $view->disableColumn('code');  // Force disable PK column
+            $view->disableColumn('product-code');  // Force disable Link column with product
 
             // Load product, variant and location data
             $this->loadProductData($viewName);
@@ -98,13 +95,10 @@ class EditVariantLocation extends EditController
     protected function autocompleteAction(): array
     {
         $source = $this->request->get('source', '');
-        switch ($source) {
-            case 'locations':
-                return $this->autocompleteForLocations();
-
-            default:
-                return parent::autocompleteAction();
-        }
+        return match ($source) {
+            'locations' => $this->autocompleteForLocations(),
+            default => parent::autocompleteAction(),
+        };
     }
 
     /**
@@ -138,13 +132,13 @@ class EditVariantLocation extends EditController
      * @param array $data
      * @return DataBaseWhere[]
      */
-    private function getAutocompleteWhere($data)
+    private function getAutocompleteWhere(array $data): array
     {
         $result = empty($data['codewarehouse'])
             ? [ new DataBaseWhere('codewarehouse', null, 'IS') ]
             : [ new DataBaseWhere('codewarehouse', $data['codewarehouse']) ];
 
-        foreach ($this->getColumnValuesWhere('aisle|rack|shelf|drawer', $data['term']) as $condition) {
+        foreach ($this->getColumnValuesWhere($data['term']) as $condition) {
             $result[] = $condition;
         }
         return $result;
@@ -153,14 +147,13 @@ class EditVariantLocation extends EditController
     /**
      * Get correct database where filter for user terms in base filter columns
      *
-     * @param string $fields
      * @param string $values
      * @return DataBaseWhere[]
      */
-    private function getColumnValuesWhere($fields, $values)
+    private function getColumnValuesWhere(string $values): array
     {
         $result = [];
-        $column1 = explode('|', $fields);
+        $column1 = explode('|', 'aisle|rack|shelf|drawer');
         $column2 = explode(' ', $values);
         $maxValues = count($column1) - 1;
 
@@ -175,19 +168,19 @@ class EditVariantLocation extends EditController
     }
 
     /**
-     * Get a array list for Widget Select of all References of one product
+     * Get an array list for Widget Select of all References of one product
      *
      * @param int $idproduct
      * @return array
      */
-    private function getReferencesForProduct($idproduct): array
+    private function getReferencesForProduct(int $idproduct): array
     {
         $where = [ new DataBaseWhere('idproducto', $idproduct) ];
         $order = [ 'referencia' => 'ASC' ];
         $result = [];
 
         $variant = new Variante();
-        foreach ($variant->all($where, $order, 0, 0) as $row) {
+        foreach ($variant->all($where, $order) as $row) {
             $description = $row->description(true);
             $title = empty($description)
                 ? $row->referencia
@@ -203,7 +196,7 @@ class EditVariantLocation extends EditController
      *
      * @param string $viewName
      */
-    private function loadLocationDescription($viewName)
+    private function loadLocationDescription(string $viewName): void
     {
         $idlocation = $this->getViewModelValue($viewName, 'idlocation');
         if (empty($idlocation)) {
@@ -218,9 +211,7 @@ class EditVariantLocation extends EditController
         $this->views[$viewName]->model->storagetype = $location->storagetype;
 
         $columnLocation = $this->views[$viewName]->columnForName('location');
-        if ($columnLocation) {
-            $columnLocation->widget->setSelected($location->descriptionComplete());
-        }
+        $columnLocation?->widget->setSelected($location->descriptionComplete());
     }
 
     /**
@@ -228,7 +219,7 @@ class EditVariantLocation extends EditController
      *
      * @param string $viewName
      */
-    private function loadProductData($viewName)
+    private function loadProductData(string $viewName): void
     {
         $idproduct = $this->getViewModelValue($viewName, 'idproduct');
         if (empty($idproduct)) {
@@ -249,7 +240,7 @@ class EditVariantLocation extends EditController
      *
      * @param string $viewName
      */
-    private function loadVariantData($viewName)
+    private function loadVariantData(string $viewName): void
     {
         $idproduct = $this->getViewModelValue($viewName, 'idproduct');
         if (empty($idproduct)) {
@@ -260,7 +251,7 @@ class EditVariantLocation extends EditController
         $columnReference = $this->views[$viewName]->columnForName('reference');
         if ($columnReference) {
             $values = $this->getReferencesForProduct($idproduct);
-            $columnReference->widget->setValuesFromArray($values, false);
+            $columnReference->widget->setValuesFromArray($values);
         }
     }
 }

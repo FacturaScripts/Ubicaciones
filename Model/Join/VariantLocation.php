@@ -1,8 +1,8 @@
 <?php
 /**
  * This file is part of Ubicaciones plugin for FacturaScripts.
- * FacturaScripts Copyright (C) 2015-2022 Carlos Garcia Gomez <carlos@facturascripts.com>
- * Ubicaciones    Copyright (C) 2019-2024 Jose Antonio Cuello Principal <yopli2000@gmail.com>
+ * FacturaScripts Copyright (C) 2015-2025 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Ubicaciones    Copyright (C) 2019-2025 Jose Antonio Cuello Principal <yopli2000@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -30,7 +30,6 @@ use FacturaScripts\Dinamic\Model\VariantLocation as VariantLocationModel;
  */
 class VariantLocation extends JoinModel
 {
-
     /**
      * Constructor and class initializer.
      *
@@ -42,6 +41,9 @@ class VariantLocation extends JoinModel
         $this->setMasterModel(new VariantLocationModel());
     }
 
+    /**
+     * List of fields or columns to select clausule
+     */
     protected function getFields(): array
     {
         return [
@@ -68,6 +70,9 @@ class VariantLocation extends JoinModel
         ];
     }
 
+    /**
+     * List of tables related to from clausule
+     */
     protected function getSQLFrom(): string
     {
         return 'variantslocations'
@@ -79,6 +84,9 @@ class VariantLocation extends JoinModel
             . ' LEFT JOIN atributos_valores attribute2 ON attribute2.id = variantes.idatributovalor2';
     }
 
+    /**
+     * List of tables required for the execution of the view.
+     */
     protected function getTables(): array
     {
         return [];

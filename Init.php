@@ -1,8 +1,8 @@
 <?php
 /**
  * This file is part of Ubicaciones plugin for FacturaScripts.
- * FacturaScripts Copyright (C) 2015-2022 Carlos Garcia Gomez <carlos@facturascripts.com>
- * Ubicaciones    Copyright (C) 2019-2024 Jose Antonio Cuello Principal <yopli2000@gmail.com>
+ * FacturaScripts Copyright (C) 2015-2025 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Ubicaciones    Copyright (C) 2019-2025 Jose Antonio Cuello Principal <yopli2000@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -20,16 +20,17 @@
 namespace FacturaScripts\Plugins\Ubicaciones;
 
 use FacturaScripts\Core\Template\InitClass;
-use FacturaScripts\Core\Tools;
-
 
 /**
- * Plugin Inicialization
+ * Plugin Initialization
  *
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  */
 class Init extends InitClass
 {
+    /**
+     * Code to load every time FacturaScripts starts.
+     */
     public function init(): void
     {
         $this->loadExtension(new Extension\Controller\ListAlmacen());
@@ -37,13 +38,17 @@ class Init extends InitClass
         $this->loadExtension(new Extension\Controller\EditProducto());
     }
 
+    /**
+     * Code to load every time the plugin is enabled or updated.
+     */
     public function update(): void
     {
     }
 
-
+    /**
+     * Code that is executed when uninstalling a plugin.
+     */
     public function uninstall(): void
     {
-        // código de desinstalación aquí
     }
 }

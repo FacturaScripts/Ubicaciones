@@ -1,8 +1,8 @@
 <?php
 /**
  * This file is part of Ubicaciones plugin for FacturaScripts.
- * FacturaScripts Copyright (C) 2015-2022 Carlos Garcia Gomez <carlos@facturascripts.com>
- * Ubicaciones    Copyright (C) 2019-2024 Jose Antonio Cuello Principal <yopli2000@gmail.com>
+ * FacturaScripts Copyright (C) 2015-2025 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Ubicaciones    Copyright (C) 2019-2025 Jose Antonio Cuello Principal <yopli2000@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -37,9 +37,9 @@ class ListProducto
     /**
      * Load views
      */
-    public function createViews()
+    public function createViews(): Closure
     {
-        return function () {
+        return function (): void {
             $this->createViewVariantLocations();
         };
     }
@@ -51,8 +51,9 @@ class ListProducto
      */
     public function createViewVariantLocations(): Closure
     {
-        return function ($viewName = 'ListVariantLocation') {
-            $view = $this->addView($viewName, 'Join\VariantLocation', 'locations', 'fa-solid fa-search-location')
+        return function ($viewName = 'ListVariantLocation'): void {
+            $i18n = Tools::lang();
+            $this->addView($viewName, 'Join\VariantLocation', 'locations', 'fa-solid fa-search-location')
                 // SETTINGS
                 ->setSettings($viewName, 'btnNew', false)
                 ->setSettings($viewName, 'btnDelete', false)
@@ -60,30 +61,22 @@ class ListProducto
                 // SEARCH & ORDER
                 ->addSearchFields(['aisle', 'rack', 'shelf', 'drawer'])
                 ->addOrderBy(['codewarehouse', 'aisle', 'rack', 'shelf', 'drawer'], 'warehouse')
-                ->addOrderBy(['aisle', 'rack', 'shelf', 'drawer', 'codewarehouse'], 'location');
-
-            // FILTERS
-            $warehouseValues = $this->codeModel->all('almacenes', 'codalmacen', 'nombre');
-            $view->addFilterSelect('warehouse', 'warehouse', 'codewarehouse', $warehouseValues);
-
-            $aisleValues = $this->codeModel->all('locations', 'aisle', 'aisle');
-            $view->addFilterSelect('aisle', 'aisle', 'aisle', $aisleValues);
-
-            $i18n = Tools::lang();
-            $view->addFilterSelectWhere('type', [
-                ['label' => $i18n->trans('type'), 'where' => []],
-                ['label' => $i18n->trans('storage'), 'where' => [new DataBaseWhere('locations.storagetype', 0)]],
-                ['label' => $i18n->trans('picking'), 'where' => [new DataBaseWhere('locations.storagetype', 1)]],
-            ]);
-
-            $view->addFilterSelectWhere('status', [
-                ['label' => $i18n->trans('status'), 'where' => []],
-                ['label' => $i18n->trans('not-blocked'), 'where' => [new DataBaseWhere('COALESCE(productos.bloqueado, 0)', 0)]],
-                ['label' => $i18n->trans('blocked'), 'where' => [new DataBaseWhere('COALESCE(productos.bloqueado, 0)', 1)]],
-            ]);
-
-            $view->addFilterAutocomplete('product', 'product', 'productos.referencia', 'productos', 'referencia', 'descripcion');
-            $view->addFilterAutocomplete('reference', 'reference', 'reference', 'Variante', 'referencia', 'referencia');
+                ->addOrderBy(['aisle', 'rack', 'shelf', 'drawer', 'codewarehouse'], 'location')
+                // FILTERS
+                ->addFilterSelect('warehouse', 'warehouse', 'codewarehouse', CodeModel::all('almacenes', 'codalmacen', 'nombre'))
+                ->addFilterSelect('aisle', 'aisle', 'aisle', CodeModel::all('locations', 'aisle', 'aisle'))
+                ->addFilterSelectWhere('type', [
+                    ['label' => $i18n->trans('type'), 'where' => []],
+                    ['label' => $i18n->trans('storage'), 'where' => [new DataBaseWhere('locations.storagetype', 0)]],
+                    ['label' => $i18n->trans('picking'), 'where' => [new DataBaseWhere('locations.storagetype', 1)]],
+                ])
+                ->addFilterSelectWhere('status', [
+                    ['label' => $i18n->trans('status'), 'where' => []],
+                    ['label' => $i18n->trans('not-blocked'), 'where' => [new DataBaseWhere('COALESCE(productos.bloqueado, 0)', 0)]],
+                    ['label' => $i18n->trans('blocked'), 'where' => [new DataBaseWhere('COALESCE(productos.bloqueado, 0)', 1)]],
+                ])
+                ->addFilterAutocomplete('product', 'product', 'productos.referencia', 'productos', 'referencia', 'descripcion')
+                ->addFilterAutocomplete('reference', 'reference', 'reference', 'Variante', 'referencia', 'referencia');
         };
     }
 }
