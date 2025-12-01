@@ -199,10 +199,10 @@ class Location extends ModelClass
      * Append a value to the description string if the value is not empty.
      *
      * @param string $description
-     * @param string $value
+     * @param ?string $value
      * @param string $label
      */
-    private function addToDescription(string &$description, string $value, string $label): void
+    private function addToDescription(string &$description, ?string $value, string $label): void
     {
         if (($value == '') || ($value == null)) {
             return;
