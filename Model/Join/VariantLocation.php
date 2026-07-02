@@ -20,7 +20,7 @@
 
 namespace FacturaScripts\Plugins\Ubicaciones\Model\Join;
 
-use FacturaScripts\Dinamic\Model\Base\JoinModel;
+use FacturaScripts\Core\Template\JoinModel;
 use FacturaScripts\Dinamic\Model\VariantLocation as VariantLocationModel;
 
 /**
