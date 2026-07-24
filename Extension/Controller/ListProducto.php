@@ -20,8 +20,8 @@
 namespace FacturaScripts\Plugins\Ubicaciones\Extension\Controller;
 
 use Closure;
-use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Tools;
+use FacturaScripts\Core\Where;
 use FacturaScripts\Dinamic\Model\CodeModel;
 
 /**
@@ -67,13 +67,13 @@ class ListProducto
                 ->addFilterSelect('aisle', 'aisle', 'aisle', CodeModel::all('locations', 'aisle', 'aisle'))
                 ->addFilterSelectWhere('type', [
                     ['label' => $i18n->trans('type'), 'where' => []],
-                    ['label' => $i18n->trans('storage'), 'where' => [new DataBaseWhere('locations.storagetype', 0)]],
-                    ['label' => $i18n->trans('picking'), 'where' => [new DataBaseWhere('locations.storagetype', 1)]],
+                    ['label' => $i18n->trans('storage'), 'where' => [ Where::eq('locations.storagetype', 0)]],
+                    ['label' => $i18n->trans('picking'), 'where' => [Where::eq('locations.storagetype', 1)]],
                 ])
                 ->addFilterSelectWhere('status', [
                     ['label' => $i18n->trans('status'), 'where' => []],
-                    ['label' => $i18n->trans('not-blocked'), 'where' => [new DataBaseWhere('COALESCE(productos.bloqueado, 0)', 0)]],
-                    ['label' => $i18n->trans('blocked'), 'where' => [new DataBaseWhere('COALESCE(productos.bloqueado, 0)', 1)]],
+                    ['label' => $i18n->trans('not-blocked'), 'where' => [Where::eq('COALESCE(productos.bloqueado, 0)', 0)]],
+                    ['label' => $i18n->trans('blocked'), 'where' => [Where::eq('COALESCE(productos.bloqueado, 0)', 1)]],
                 ])
                 ->addFilterAutocomplete('product', 'product', 'productos.referencia', 'productos', 'referencia', 'descripcion')
                 ->addFilterAutocomplete('reference', 'reference', 'reference', 'Variante', 'referencia', 'referencia');

@@ -20,6 +20,7 @@
 
 namespace FacturaScripts\Plugins\Ubicaciones\Model;
 
+use Exception;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;
@@ -40,23 +41,23 @@ class Location extends ModelClass
     /**
      * Corridor inside the warehose.
      *
-     * @var string
+     * @var ?string
      */
-    public $aisle;
+    public ?string $aisle;
 
     /**
      * Compartment inside the closet band.
      *
-     * @var string
+     * @var ?string
      */
-    public $drawer;
+    public ?string $drawer;
 
     /**
      * Link to the Warehouse model
      *
-     * @var string
+     * @var ?string
      */
-    public $codewarehouse;
+    public ?string $codewarehouse;
 
     /**
      * Primary key.
@@ -68,16 +69,16 @@ class Location extends ModelClass
     /**
      * Cupboard or area within the aisle.
      *
-     * @var string
+     * @var ?string
      */
-    public $rack;
+    public ?string $rack;
 
     /**
      * Closet band into rack.
      *
-     * @var string
+     * @var ?string
      */
-    public $shelf;
+    public ?string $shelf;
 
     /**
      * Type of storage.
@@ -91,9 +92,9 @@ class Location extends ModelClass
     /**
      * Shelf validation code. This is normally used in the preparation of sales orders.
      *
-     * @var string
+     * @var ?string
      */
-    public $validationcode;
+    public ?string $validationcode;
 
     /**
      * Reset the values of all model properties.
@@ -173,6 +174,7 @@ class Location extends ModelClass
      * It runs inside the save method.
      *
      * @return bool
+     * @throws Exception
      */
     public function test(): bool
     {

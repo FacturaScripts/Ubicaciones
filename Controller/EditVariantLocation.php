@@ -19,9 +19,9 @@
  */
 namespace FacturaScripts\Plugins\Ubicaciones\Controller;
 
-use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Lib\ExtendedController\EditController;
 use FacturaScripts\Core\Tools;
+use FacturaScripts\Core\Where;
 use FacturaScripts\Dinamic\Lib\ExtendedController\BaseView;
 use FacturaScripts\Dinamic\Model\Producto;
 use FacturaScripts\Dinamic\Model\Variante;
@@ -94,7 +94,7 @@ class EditVariantLocation extends EditController
      */
     protected function autocompleteAction(): array
     {
-        $source = $this->request->get('source', '');
+        $source = $this->request->inputOrQuery('source', '');
         return match ($source) {
             'locations' => $this->autocompleteForLocations(),
             default => parent::autocompleteAction(),
@@ -130,13 +130,13 @@ class EditVariantLocation extends EditController
      * Return array of where filters from user form data
      *
      * @param array $data
-     * @return DataBaseWhere[]
+     * @return Where[]
      */
     private function getAutocompleteWhere(array $data): array
     {
         $result = empty($data['codewarehouse'])
-            ? [ new DataBaseWhere('codewarehouse', null, 'IS') ]
-            : [ new DataBaseWhere('codewarehouse', $data['codewarehouse']) ];
+            ? [ Where::isNull('codewarehouse') ]
+            : [ Where::eq('codewarehouse', $data['codewarehouse']) ];
 
         foreach ($this->getColumnValuesWhere($data['term']) as $condition) {
             $result[] = $condition;
@@ -148,7 +148,7 @@ class EditVariantLocation extends EditController
      * Get correct database where filter for user terms in base filter columns
      *
      * @param string $values
-     * @return DataBaseWhere[]
+     * @return Where[]
      */
     private function getColumnValuesWhere(string $values): array
     {
@@ -158,7 +158,7 @@ class EditVariantLocation extends EditController
         $maxValues = count($column1) - 1;
 
         for ($index = 0; $index < count($column2); $index++) {
-            $result[] = new DataBaseWhere($column1[$index], mb_strtolower($column2[$index], 'UTF8'), 'LIKE');
+            $result[] = Where::like($column1[$index], mb_strtolower($column2[$index], 'UTF8'));
             if ($index == $maxValues) {
                 return $result;
             }
@@ -175,12 +175,11 @@ class EditVariantLocation extends EditController
      */
     private function getReferencesForProduct(int $idproduct): array
     {
-        $where = [ new DataBaseWhere('idproducto', $idproduct) ];
+        $where = [ Where::eq('idproducto', $idproduct) ];
         $order = [ 'referencia' => 'ASC' ];
         $result = [];
 
-        $variant = new Variante();
-        foreach ($variant->all($where, $order) as $row) {
+        foreach (Variante::all($where, $order) as $row) {
             $description = $row->description(true);
             $title = empty($description)
                 ? $row->referencia

@@ -58,9 +58,9 @@ class VariantLocation extends ModelClass
     /**
      * Link to the variant product model.
      *
-     * @var string
+     * @var ?string
      */
-    public $reference;
+    public ?string $reference;
 
     /**
      * This function is called when creating the model table. Returns the SQL
